@@ -1,0 +1,10 @@
+{
+  "data":[
+    {
+      "news_id":"1",
+      "news_title": "first new",
+      "news_description": "some news description and a lot chars",
+      "news_image_url": "https://images.unsplash.com/photo-1661010854482-ff8e194d5f23?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=842&q=80"
+    }
+  ]
+}
