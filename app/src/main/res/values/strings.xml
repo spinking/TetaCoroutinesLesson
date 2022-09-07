@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">TetaArchitectureLesson</string>
+    <string name="app_name">TetaCoroutinesLesson</string>
 
     <!--NewsScreen-->
     <string name="news_clear">Очистить новости</string>

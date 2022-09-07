@@ -10,7 +10,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "studio.eyesthetics.tetaarchitecturelesson"
+        applicationId "studio.eyesthetics.tetacoroutineslesson"
         minSdk 21
         targetSdk 33
         versionCode 1
