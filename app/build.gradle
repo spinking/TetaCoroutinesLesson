@@ -7,12 +7,12 @@ plugins {
 apply from: "../versions.gradle"
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         applicationId "studio.eyesthetics.tetaarchitecturelesson"
         minSdk 21
-        targetSdk 32
+        targetSdk 33
         versionCode 1
         versionName "1.0"
 
@@ -78,6 +78,7 @@ dependencies {
     implementation "androidx.constraintlayout:constraintlayout-compose:$compose_constraint_version"
     implementation "androidx.activity:activity-compose:$compose_activity_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    implementation "com.google.accompanist:accompanist-swiperefresh:$compose_swipe_refresh"
 
     //Coil
     implementation "io.coil-kt:coil:$coil_version"

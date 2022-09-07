@@ -1,16 +1,14 @@
 package studio.eyesthetics.tetaarchitecturelesson.ui.news
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
@@ -31,8 +29,8 @@ fun NewsItem(
         AsyncImage(
             model = item.imageUrl,
             contentDescription = null,
-            contentScale = ContentScale.FillWidth,
-            modifier = Modifier.heightIn(max = 300.dp).constrainAs(image) {
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.height(300.dp).constrainAs(image) {
                 start.linkTo(parent.start)
                 end.linkTo(parent.end)
                 top.linkTo(parent.top)
@@ -73,7 +71,9 @@ fun NewsItem(
                 end.linkTo(parent.end, margin = 8.dp)
                 top.linkTo(title.bottom, margin = 8.dp)
                 width = Dimension.fillToConstraints
-            }
+            },
+            maxLines = 3,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

@@ -8,7 +8,6 @@ import studio.eyesthetics.tetaarchitecturelesson.data.network.errors.NoNetworkEr
 class NetworkStatusInterceptor : Interceptor {
     override fun intercept(chain: Interceptor.Chain): Response {
         if (NetworkMonitor.isConnected.not()) {
-            NetworkMonitor.isConnected = true
             throw NoNetworkError()
         }
         return chain.proceed(chain.request())

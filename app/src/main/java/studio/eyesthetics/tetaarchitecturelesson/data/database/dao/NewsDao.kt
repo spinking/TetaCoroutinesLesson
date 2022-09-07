@@ -18,4 +18,10 @@ interface NewsDao : BaseDao<NewsEntity> {
 
     @Query("SELECT * FROM news")
     fun getNews(): Flow<List<NewsEntity>>
+
+    @Query("SELECT COUNT(id) FROM news")
+    fun getNewsCount(): Int
+
+    @Query("DELETE FROM news")
+    fun clearNews()
 }

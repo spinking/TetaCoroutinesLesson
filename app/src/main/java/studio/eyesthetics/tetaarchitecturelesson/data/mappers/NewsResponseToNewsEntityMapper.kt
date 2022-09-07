@@ -1,10 +1,10 @@
 package studio.eyesthetics.tetaarchitecturelesson.data.mappers
 
 import studio.eyesthetics.tetaarchitecturelesson.data.database.entities.NewsEntity
-import studio.eyesthetics.tetaarchitecturelesson.data.models.responses.NewsResponse
+import studio.eyesthetics.tetaarchitecturelesson.data.models.responses.NewResponse
 
-class NewsResponseToNewsEntityMapper : Mapper<NewsResponse, NewsEntity> {
-    override fun mapFromEntity(type: NewsResponse?): NewsEntity {
+class NewsResponseToNewsEntityMapper : Mapper<NewResponse, NewsEntity> {
+    override fun mapFromEntity(type: NewResponse?): NewsEntity {
         return NewsEntity(
             id = type?.id ?: "",
             title = type?.title ?: "",
@@ -13,7 +13,7 @@ class NewsResponseToNewsEntityMapper : Mapper<NewsResponse, NewsEntity> {
         )
     }
 
-    override fun mapFromListEntity(type: List<NewsResponse>): List<NewsEntity> {
+    override fun mapFromListEntity(type: List<NewResponse>): List<NewsEntity> {
         return type.map { mapFromEntity(it) }
     }
 }

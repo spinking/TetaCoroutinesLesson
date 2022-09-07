@@ -19,7 +19,8 @@ class MockInterceptor @Inject constructor(
 ) : Interceptor {
 
     private val endPointsList: List<Endpoints> = listOf(
-        Endpoints.News
+        Endpoints.News,
+        Endpoints.News1
     )
 
     enum class ResponseCode {
@@ -27,7 +28,8 @@ class MockInterceptor @Inject constructor(
     }
 
     enum class Endpoints {
-        News
+        News,
+        News1
     }
 
     private fun getAssetName (
@@ -50,12 +52,18 @@ class MockInterceptor @Inject constructor(
             val match = endPointsList.filter { uri.contains(it.name) }
 
             if (match.isNotEmpty()) {
-                requestDelay = 300
+                requestDelay = 1000
                 val responseCode = 200
                 val responseBody = when {
-                    uri.contains(Endpoints.News.name) -> context.readTextFromAsset("json/mock/news/" +
+                    uri.contains("${Endpoints.News.name}?page=0") -> context.readTextFromAsset("json/mock/news/" +
                             getAssetName(
                                 Endpoints.News,
+                                chain.request().method.toLowerCase(Locale.ROOT),
+                                ResponseCode.success
+                            ))
+                    uri.contains("${Endpoints.News.name}?page=1") -> context.readTextFromAsset("json/mock/news/" +
+                            getAssetName(
+                                Endpoints.News1,
                                 chain.request().method.toLowerCase(Locale.ROOT),
                                 ResponseCode.success
                             ))

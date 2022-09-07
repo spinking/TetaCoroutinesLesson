@@ -12,12 +12,19 @@ class NewsRepository(
     private val newsApi: INewsApi
 ) : INewsRepository {
     override suspend fun getNews(): Flow<List<NewsEntity>> {
-        getNewsFromNetwork()
         return newsDao.getNews()
     }
 
-    override suspend fun getNewsFromNetwork() {
-        val news = newsApi.getNews().data ?: emptyList()
+    override suspend fun getNewsFromNetwork(page: Int) {
+        val news = newsApi.getNews(page).data?.news ?: emptyList()
         newsDao.upsert(newsMapper.mapFromListEntity(news))
+    }
+
+    override fun isNewsEmpty(): Boolean {
+        return newsDao.getNewsCount() == 0
+    }
+
+    override fun clearNews() {
+        newsDao.clearNews()
     }
 }

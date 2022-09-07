@@ -1,10 +1,15 @@
 package studio.eyesthetics.tetaarchitecturelesson.ui.main
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import kotlinx.coroutines.launch
@@ -23,6 +28,8 @@ fun MainScreen(viewModel: MainViewModel) {
             viewModel.notifications.collect { notification ->
                 renderNotification(notification, scaffoldState)
             }
+        }
+        scope.launch {
             viewModel.loading.collect { isLoading ->
                 isShowLoading.value = isLoading
             }
@@ -41,11 +48,13 @@ fun MainScreen(viewModel: MainViewModel) {
                     Snackbar(
                         backgroundColor = MaterialTheme.colors.onPrimary,
                         action = {
-                            TextButton(onClick = { host.currentSnackbarData?.performAction() }) {
+                            TextButton(
+                                onClick = { host.currentSnackbarData?.performAction() }
+                            ) {
                                 Text(
                                     text = host.currentSnackbarData?.actionLabel?.uppercase() ?: "",
                                     color = MaterialTheme.colors.secondary,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
                                 )
                             }
                         },
@@ -61,6 +70,7 @@ fun MainScreen(viewModel: MainViewModel) {
             )
         }
     )
+    if (isShowLoading.value) ProgressBar()
 }
 
 @Composable
@@ -74,7 +84,10 @@ suspend fun renderNotification(
 ) {
     val result = when(notification) {
         is Notification.ErrorMessage -> {
-            scaffoldState.snackbarHostState.showSnackbar(notification.message)
+            scaffoldState.snackbarHostState.showSnackbar(
+                message = notification.message,
+                actionLabel = notification.label
+            )
         }
     }
     when(result) {
@@ -82,5 +95,17 @@ suspend fun renderNotification(
             notification.handler.invoke()
         }
         SnackbarResult.Dismissed -> {}
+    }
+}
+
+@Composable
+fun ProgressBar() {
+    Box(
+        contentAlignment = Alignment.Center,
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Color.Black.copy(alpha = 0.5f))
+    ) {
+        CircularProgressIndicator(color = MaterialTheme.colors.primary)
     }
 }

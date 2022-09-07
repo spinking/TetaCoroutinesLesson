@@ -5,5 +5,8 @@ import studio.eyesthetics.tetaarchitecturelesson.data.database.entities.NewsEnti
 
 interface INewsRepository {
     suspend fun getNews(): Flow<List<NewsEntity>>
-    suspend fun getNewsFromNetwork()
+    suspend fun getNewsFromNetwork(page: Int)
+
+    fun isNewsEmpty(): Boolean
+    fun clearNews()
 }
