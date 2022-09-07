@@ -19,7 +19,7 @@ abstract class BaseViewModel(
     val loading
         get() = loadingChannel.receiveAsFlow()
 
-    private fun notify(event: Notification) {
+    fun notify(event: Notification) {
         notificationsChannel.trySend(event)
     }
 
@@ -36,8 +36,7 @@ abstract class BaseViewModel(
         val errHand = CoroutineExceptionHandler { _, err ->
             errHandler?.invoke(err) ?: notify(Notification.ErrorMessage(
                 message = err.message ?: "Something wrong",
-                label = "try again",
-                handler = { launchSafety(block = block) }
+                label = "try again"
             ))
         }
 

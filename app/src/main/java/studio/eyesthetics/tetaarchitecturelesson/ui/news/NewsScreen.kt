@@ -3,7 +3,6 @@ package studio.eyesthetics.tetaarchitecturelesson.ui.news
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
@@ -24,17 +23,13 @@ import studio.eyesthetics.tetaarchitecturelesson.R
 fun NewsScreen(viewModel: MainViewModel) {
     val scope = rememberCoroutineScope()
     val news = viewModel.news.collectAsState(initial = emptyList())
-    val lazyListState = rememberLazyListState()
 
     LaunchedEffect(key1 = Unit) {
         scope.launch {
             viewModel.getNews()
         }
-    }
-
-    LaunchedEffect(key1 = news.value) {
-        if (news.value.isNotEmpty()) {
-            lazyListState.animateScrollToItem(news.value.size - 1)
+        scope.launch {
+            viewModel.initNews()
         }
     }
 
@@ -44,9 +39,12 @@ fun NewsScreen(viewModel: MainViewModel) {
         onRefresh = {
             viewModel.getNewsFromNetwork()
         },
-        indicator = { _, _ -> }
+        indicator = { _, _ -> },
     ) {
-        LazyColumn(reverseLayout = true) {
+        LazyColumn(
+            reverseLayout = true,
+            modifier = Modifier.fillMaxSize()
+        ) {
             items(items = news.value, key = { it.id }) {
                 NewsItem(item = it)
                 if (news.value.last() != it)
@@ -55,17 +53,19 @@ fun NewsScreen(viewModel: MainViewModel) {
                         .height(4.dp)
                     )
             }
-            item {
-                Box(modifier = Modifier.fillMaxWidth()) {
-                    TextButton(
-                        modifier = Modifier.align(Alignment.Center),
-                        onClick = {
-                            viewModel.clearNews()
+            if (news.value.isNotEmpty()) {
+                item {
+                    Box(modifier = Modifier.fillMaxWidth()) {
+                        TextButton(
+                            modifier = Modifier.align(Alignment.Center),
+                            onClick = {
+                                viewModel.clearNews()
+                            }
+                        ) {
+                            Text(
+                                text = stringResource(R.string.news_clear).uppercase()
+                            )
                         }
-                    ) {
-                        Text(
-                            text = stringResource(R.string.news_clear).uppercase()
-                        )
                     }
                 }
             }

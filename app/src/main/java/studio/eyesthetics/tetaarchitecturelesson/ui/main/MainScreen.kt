@@ -86,13 +86,14 @@ suspend fun renderNotification(
         is Notification.ErrorMessage -> {
             scaffoldState.snackbarHostState.showSnackbar(
                 message = notification.message,
-                actionLabel = notification.label
+                actionLabel = notification.label,
+                duration = if (notification.label.isEmpty()) SnackbarDuration.Short else SnackbarDuration.Indefinite
             )
         }
     }
     when(result) {
         SnackbarResult.ActionPerformed -> {
-            notification.handler.invoke()
+            notification.handler?.invoke()
         }
         SnackbarResult.Dismissed -> {}
     }

@@ -22,18 +22,28 @@ class MainViewModel(
     fun getNews() {
         launchSafety() {
             newsRepository.getNews().collect {
-                if (newsRepository.isNewsEmpty()) getNewsFromNetwork()
                 _news.emit(it)
             }
         }
     }
 
     fun getNewsFromNetwork() {
-        launchSafety(isNeedShowLoading = true) {
+        val errorHandler: (Throwable) -> Unit =  { err ->
+            notify(Notification.ErrorMessage(
+                message = err.message ?: "Something wrong",
+                label = "try again",
+                handler = { getNewsFromNetwork() }
+            ))
+        }
+        launchSafety(errHandler = errorHandler, isNeedShowLoading = true) {
             newsRepository.getNewsFromNetwork(
                 if (newsRepository.isNewsEmpty()) 0 else 1
             )
         }
+    }
+
+    fun initNews() {
+        if (newsRepository.isNewsEmpty()) getNewsFromNetwork()
     }
 
     fun clearNews() {

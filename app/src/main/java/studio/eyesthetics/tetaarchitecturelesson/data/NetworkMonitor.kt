@@ -20,7 +20,6 @@ object NetworkMonitor {
     fun registerNetworkMonitor(context: Context) {
         cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
-        //TODO убрать, если минимальная версия останется 23
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             cm.activeNetworkInfo?.type.let {
                 obtainNetworkType(it).also { networkType ->
