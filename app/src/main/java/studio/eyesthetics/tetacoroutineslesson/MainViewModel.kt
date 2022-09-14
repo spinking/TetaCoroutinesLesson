@@ -16,16 +16,13 @@ class MainViewModel(
     private val loadingChannel: Channel<Boolean>
 ) : BaseViewModel(notificationsChannel, loadingChannel) {
 
+    init {
+        getNews()
+        initNews()
+    }
+
     private val _news = MutableSharedFlow<List<NewsEntity>>()
     val news: SharedFlow<List<NewsEntity>> = _news.asSharedFlow()
-
-    fun getNews() {
-        launchSafety() {
-            newsRepository.getNews().collect {
-                _news.emit(it)
-            }
-        }
-    }
 
     fun getNewsFromNetwork() {
         val errorHandler: (Throwable) -> Unit =  { err ->
@@ -42,12 +39,20 @@ class MainViewModel(
         }
     }
 
-    fun initNews() {
-        if (newsRepository.isNewsEmpty()) getNewsFromNetwork()
-    }
-
     fun clearNews() {
         newsRepository.clearNews()
+    }
+
+    private fun getNews() {
+        launchSafety() {
+            newsRepository.getNews().collect {
+                _news.emit(it)
+            }
+        }
+    }
+
+    private fun initNews() {
+        if (newsRepository.isNewsEmpty()) getNewsFromNetwork()
     }
 }
 

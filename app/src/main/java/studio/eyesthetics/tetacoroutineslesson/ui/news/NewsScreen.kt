@@ -6,32 +6,19 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
 import androidx.compose.material.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
-import kotlinx.coroutines.launch
 import studio.eyesthetics.tetacoroutineslesson.MainViewModel
 import studio.eyesthetics.tetacoroutineslesson.R
 
 @Composable
 fun NewsScreen(viewModel: MainViewModel) {
-    val scope = rememberCoroutineScope()
     val news = viewModel.news.collectAsState(initial = emptyList())
-
-    LaunchedEffect(key1 = Unit) {
-        scope.launch {
-            viewModel.getNews()
-        }
-        scope.launch {
-            viewModel.initNews()
-        }
-    }
 
     val swipeRefreshState = rememberSwipeRefreshState(false)
     SwipeRefresh(
