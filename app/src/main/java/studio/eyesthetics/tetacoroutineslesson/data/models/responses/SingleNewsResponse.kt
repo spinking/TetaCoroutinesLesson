@@ -2,7 +2,7 @@ package studio.eyesthetics.tetacoroutineslesson.data.models.responses
 
 import com.google.gson.annotations.SerializedName
 
-data class NewResponse(
+data class SingleNewsResponse(
     @SerializedName("news_id")
     val id: String,
     @SerializedName("news_title")
